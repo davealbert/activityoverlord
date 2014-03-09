@@ -34,9 +34,23 @@
   </head>
 
   <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+    	<div class="container">
+    		<a href="/" class="navbar-brand"> activityOverload</a>
+    	</div>
+    </div>
+
     <%- body %>
 
-
+    <div class="container">
+    	<hr />
+    	<footer class="footer pull-right">
+    		<div>
+    			<a href="http://sailsjs.com/">sails.js</a>
+    			<div>tutorial: <i>http://irlnathan.github.io/sailscasts/</i></div>
+    		</div>
+    	</footer>
+    </div>
 
     <!--
         Client-side Templates
@@ -90,6 +104,7 @@
     <script src="/linker/js/socket.io.js"></script>
     <script src="/linker/js/sails.io.js"></script>
     <script src="/linker/js/app.js"></script>
+    <script src="/linker/js/jquery.js"></script>
     <script src="/linker/js/bootstrap.js"></script>
     <!--SCRIPTS END-->
   </body>
