@@ -13,7 +13,7 @@
  */
 
 module.exports.adapters = {
-
+/*
   // If you leave the adapter config unspecified
   // in a model definition, 'default' will be used.
   'default': 'disk',
@@ -41,4 +41,5 @@ module.exports.adapters = {
     password: 'YOUR_MYSQL_PASSWORD',
     database: 'YOUR_MYSQL_DB'
   }
+  */
 };
