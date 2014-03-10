@@ -50,9 +50,6 @@ module.exports = {
 
     index:function(req, res, next) {
 
-        console.log(Date());
-        console.log(req.session.authenticated);
-
         User.find(function(err, users){
             if (err) { return next(err); }
             res.view({
