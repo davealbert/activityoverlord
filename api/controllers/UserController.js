@@ -53,7 +53,8 @@ module.exports = {
         User.find(function(err, users){
             if (err) { return next(err); }
             res.view({
-                users: users
+                users: users,
+                title: 'User Administration'
             });
         });
     },
