@@ -33,6 +33,11 @@ module.exports = {
         type: 'string'
     },
 
+    admin: {
+        type: 'boolean',
+        defaultsTo: false
+    },
+
     toJSON: function  () {
        var obj = this.toObject();
        delete obj.password;
@@ -43,6 +48,20 @@ module.exports = {
     }
 
    },
+
+   beforeValidation: function(values, next) {
+     console.log(values);
+     if (typeof values.admin !== 'undefined') {
+        if (values.admin === 'unchecked') {
+            values.admin = false;
+        } else {
+            values.admin = true;
+        }
+     }
+
+     next();
+   },
+
    beforeCreate: function (values, next) {
      console.log('beforeCreate');
      if (!values.password || values.password !== values.confirmation) {
