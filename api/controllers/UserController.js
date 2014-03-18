@@ -117,6 +117,18 @@ module.exports = {
             res.redirect('/user');
 
         });
+    },
+
+    subscribe: function (req, res) {
+
+       User.find(function foundUsers(err, users){
+           if (err) { return next(err); }
+
+           User.subscribe(req.socket);
+           User.subscribe(req.socket, users);
+
+       });
+
     }
 };
 
