@@ -40,6 +40,7 @@ module.exports = {
             user.save(function (err, user) {
                if (err) { return next(err); }
 
+               user.action = " signed-up and logged-in.";
                User.publishCreate(user);
 
                res.redirect('/user/show/' + user.id);
@@ -114,6 +115,11 @@ module.exports = {
 
             User.destroy(req.param('id'), function userDestroyed (err) {
                if (err) { return next(err); }
+
+               User.publishUpdate(user.id, {
+                   name: user.name,
+                   action: ' user has been destroyed.'
+               });
 
                User.publishDestroy(user.id);
             });

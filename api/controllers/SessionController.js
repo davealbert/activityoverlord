@@ -82,8 +82,9 @@ module.exports = {
                    if (err) { return next(err); }
                    User.publishUpdate(user.id, {
                        loggedIn: true,
-                       id: user.id
-
+                       id: user.id,
+                       name: user.name,
+                       action: ' has logged in.'
                    });
 
                    if (req.session.User.admin) {
@@ -107,9 +108,11 @@ module.exports = {
            }, function (err) {
               if (err) { return next(err); }
 
-              User.publishUpdate(user.id, {
+              User.publishUpdate(userId, {
                   loggedIn: false,
-                  id: user.id
+                  id: userId,
+                  name: user.name,
+                  action: ' has logged out.'
               });
 
               req.session.destroy();
