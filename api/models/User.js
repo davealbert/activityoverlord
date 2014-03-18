@@ -55,7 +55,6 @@ module.exports = {
    },
 
    beforeValidation: function(values, next) {
-     console.log("validation: ", values);
      if (typeof values.admin !== 'undefined') {
         if (values.admin === 'unchecked') {
             values.admin = false;
@@ -68,7 +67,6 @@ module.exports = {
    },
 
    beforeCreate: function (values, next) {
-     console.log('beforeCreate');
      if (!values.password || values.password !== values.confirmation) {
          return next({ err: ["Password doesn't match password confirmation"] });
      }
@@ -76,7 +74,6 @@ module.exports = {
      require('bcrypt').hash(values.password, 10, function passwordEncrypted (err, encryptedPassword) {
         if (err) { return next(err); }
 
-        console.log(values.password, encryptedPassword);
         values.encryptedPassword = encryptedPassword;
         next();
      });
