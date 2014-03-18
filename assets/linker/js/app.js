@@ -18,19 +18,10 @@
 
   socket.on('connect', function socketConnected() {
 
+    console.log("This is from the connect: ", this.socket.sessionid);
+
     // Listen for Comet messages from Sails
-    socket.on('message', function messageReceived(message) {
-
-      ///////////////////////////////////////////////////////////
-      // Replace the following with your own custom logic
-      // to run when a new message arrives from the Sails.js
-      // server.
-      ///////////////////////////////////////////////////////////
-      log('New comet message received :: ', message);
-      //////////////////////////////////////////////////////
-
-    });
-
+    socket.on('message', cometMessageReceivedFromServer);
 
     socket.get('/user/subscribe');
 
@@ -71,3 +62,65 @@
   window.io
 
 );
+
+function cometMessageReceivedFromServer(message) {
+   console.log("Here's the message: ", message);
+
+   if (message.model === 'user') {
+     var userId = message.id;
+     updateUserInDom(userId, message);
+   }
+}
+
+function updateUserInDom (userId, message) {
+   var page = document.location.pathname;
+   page = page.replace(/(\/)$/, '');
+
+   console.log(message.verb, page);
+
+   switch(page) {
+      case '/user':
+         if (message.verb === 'update') {
+           UserIndexPage.updateUser(userId, message);
+         }
+
+         if (message.verb === 'create') {
+            console.log('create', message.verb);
+           UserIndexPage.addUser(message);
+         }
+
+         if (message.verb === 'destroy') {
+           UserIndexPage.destroyUser(userId);
+         }
+         break;
+
+   }
+
+}
+
+var UserIndexPage ={
+  updateUser: function (id, message) {
+     if (message.data.loggedIn) {
+       var $userRow = $('tr[data-id="' + id + '"] td img').first();
+       $userRow.attr('src', "/images/icon-online.png");
+     } else {
+       var $userRow = $('tr[data-id="' + id + '"] td img').first();
+       $userRow.attr('src', "/images/icon-offline.png");
+     }
+  },
+  addUser: function (user) {
+     var obj = {
+       user: user.data,
+       _csrf: window.overlord.csrf || ''
+     };
+
+     console.log('tr:last');
+     $('tr:last').after(
+       JST['assets/linker/templates/addUser.ejs'](obj)
+     );
+  },
+  destroyUser: function (id) {
+     $('tr[data-id="' + id + '"]').remove();
+  }
+};
+

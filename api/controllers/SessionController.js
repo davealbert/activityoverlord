@@ -77,14 +77,13 @@ module.exports = {
 				req.session.User = user;
 
 
-                console.log("user admin: ", user.admin);
                 user.online = true;
                 user.save(function (err, user) {
                    if (err) { return next(err); }
-
                    User.publishUpdate(user.id, {
                        loggedIn: true,
                        id: user.id
+
                    });
 
                    if (req.session.User.admin) {

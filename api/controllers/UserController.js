@@ -40,6 +40,8 @@ module.exports = {
             user.save(function (err, user) {
                if (err) { return next(err); }
 
+               User.publishCreate(user);
+
                res.redirect('/user/show/' + user.id);
             });
         });
@@ -112,6 +114,8 @@ module.exports = {
 
             User.destroy(req.param('id'), function userDestroyed (err) {
                if (err) { return next(err); }
+
+               User.publishDestroy(user.id);
             });
 
             res.redirect('/user');
