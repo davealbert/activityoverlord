@@ -33,6 +33,11 @@ module.exports = {
         type: 'string'
     },
 
+    online: {
+        type: 'boolean',
+        defaultsTo: false
+    },
+
     admin: {
         type: 'boolean',
         defaultsTo: false
@@ -50,11 +55,11 @@ module.exports = {
    },
 
    beforeValidation: function(values, next) {
-     console.log(values);
+     console.log("validation: ", values);
      if (typeof values.admin !== 'undefined') {
         if (values.admin === 'unchecked') {
             values.admin = false;
-        } else {
+        } else if (values.admin[1] === 'on') {
             values.admin = true;
         }
      }
